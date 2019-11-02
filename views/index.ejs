@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='en' class="home">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Notable&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css" />
+    <title>MongoChe</title>
+</head>
+
+<body>
+    <header>
+        <% include ./partials/header%>
+
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="assets/images/skynews.jpg" class="img-fluid" alt="Responsive image" style="padding:20px">
+            </div>
+            <div class='col-9'>
+                <% for (var i = 0; i < results.length; i++){%>
+                <article>
+                    <h4>
+                        <%= results[i].Title %>
+                    </h4>
+                    <a href="<%= results[i].Link %>">
+                        <%= results[i].Link %>
+                    </a>
+                    <br>
+                    <button class="saveArticle">Save</button>
+                </article>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <% include ./partials/footer %>
+    </div>
+    <script src=" https://code.jquery.com/jquery-3.4.1.min.js " integrity="
+                    sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=" anonymous "></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="
+                    sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+        crossorigin=" anonymous "></script>
+    <script src=" https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="
+                    sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+        crossorigin=" anonymous "></script>
+    <script>
+        $(document).on("click", ".saveArticle", function () {
+            event.preventDefault();
+            var title = $(this).parent().children().eq(0).text();
+            var link = $(this).parent().children().eq(1).text();
+            $.ajax({
+                url: "/saveArticle",
+                method: "POST",
+                data: {
+                    title: title,
+                    link: link,
+                }
+            }).then(function (response) {
+                console.log(response)
+            })
+        })
+    </script>
+</body>
+
+</html>
